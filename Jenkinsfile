@@ -61,7 +61,8 @@ pipeline {
         when {
             branch 'main'
         }
-        script {
+        steps {
+            script {
             try {
                 timeout(time: 1, unit: 'MINUTES') {
                     approved = input message: 'Deploy to production?', ok: 'Continue',
@@ -74,6 +75,7 @@ pipeline {
             } catch(error) {
                 error('Build failed because timeout was exceeded');
             }
+        }
         }
     }
     stage('Deploy'){
