@@ -1,4 +1,9 @@
 pipeline {
+  environment {
+    registry = 'ajduet/project2'
+    dockerHubCreds = 'docker_hub'
+    dockerImage = ''
+  }
   agent any
   stages {
     stage('Quality Gate') {
@@ -29,8 +34,14 @@ pipeline {
         }
     }
     stage('Docker Image') {
+        when {
+            branch 'main'
+        }
         steps{
-            echo 'Docker Image'
+            script {
+                echo "$registry:$currentBuild.number"
+                dockerImage = docker.build "$registry"
+            }
         }
     }
     stage('Docker Deliver') {
