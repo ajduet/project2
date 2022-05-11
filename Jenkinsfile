@@ -40,13 +40,21 @@ pipeline {
         steps{
             script {
                 echo "$registry:$currentBuild.number"
-                dockerImage = docker.build "$registry"
+                dockerImage = docker.build "$registry:$currentBuild.number"
             }
         }
     }
     stage('Docker Deliver') {
+        when {
+            branch 'main'
+        }
         steps{
-            echo 'Docker Deliver'
+            script {
+                docker.withRegistry("", dockerHubCreds) {
+                    dockerImage.push("$currentBuild.number")
+                    dockerImage.push("latest")
+                }
+            }
         }
     }
     stage('Wait for approval') {
