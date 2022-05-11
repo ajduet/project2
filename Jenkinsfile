@@ -14,6 +14,8 @@ pipeline {
             withMaven {
                 sh 'mvn test'
             }
+
+            junit skipPublishingChecks: true, testResults: target/surefire-reports/*.xml
         }
     }
     stage('Build') {
