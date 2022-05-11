@@ -19,8 +19,13 @@ pipeline {
         }
     }
     stage('Build') {
+        when {
+            branch 'main'
+        }
         steps{
-            echo 'Build'
+            withMaven {
+                sh 'mvn package -DskipTests'
+            }
         }
     }
     stage('Docker Image') {
