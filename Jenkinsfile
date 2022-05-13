@@ -79,8 +79,21 @@ pipeline {
         }
     }
     stage('Deploy'){
+        when {
+            branch 'main'
+        }
         steps{
-            echo 'Deploy'
+            sh 'sed -i "s/%TAG%/$BUILD_NUMBER/g" ./k8s/project2.deployment.yaml'
+            step([$class: 'KubernetesEngineBuilder',
+                projectId: 'devopssre-220404',
+                clusterName: 'devopssre-220404-gke',
+                zone: 'us-east1',
+                manifestPattern: 'k8s/',
+                credentials: 'devopssre-220404'
+                verifyDeployments: true
+            ])
+
+            cleanWs();
         }
     }
   }
