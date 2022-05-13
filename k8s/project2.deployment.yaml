@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: project2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: project2
+  template:
+    containers:
+      - name: project2-server
+        imagePullPolicy: Always
+        image: ajduet/project2:%TAG%
+        ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: project2-service
+spec:
+  selector:
+    app: project2
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 80
