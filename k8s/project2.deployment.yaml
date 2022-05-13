@@ -9,12 +9,16 @@ spec:
     matchLabels:
       app: project2
   template:
-    containers:
-      - name: project2-server
-        imagePullPolicy: Always
-        image: ajduet/project2:%TAG%
-        ports:
-          - containerPort: 8080
+    metadata:
+      labels:
+        app: project2
+    spec:
+      containers:
+        - name: project2-server
+          imagePullPolicy: Always
+          image: ajduet/project2:%TAG%
+          ports:
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
