@@ -89,7 +89,7 @@ pipeline {
                 clusterName: 'devopssre-220404-gke',
                 zone: 'us-east1',
                 manifestPattern: 'k8s/',
-                credentials: 'devopssre-220404'
+                credentials: 'devopssre-220404',
                 verifyDeployments: true
             ])
 
